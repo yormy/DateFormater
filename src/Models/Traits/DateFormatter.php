@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 // https://www.qcode.in/managing-users-timezone-in-laravel-app/
 // TODO : when to convert timezone and how
@@ -6,9 +8,9 @@
 namespace Yormy\Dateformatter\Models\Traits;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Yormy\Dateformatter\Exceptions\InvalidConfigException;
-use Illuminate\Support\Facades\Auth;
 
 trait DateFormatter
 {
@@ -41,9 +43,9 @@ trait DateFormatter
 
         foreach ($this->getFormattedDateFields() as $dateField) {
             $object = $this->toDateObject($this->{$dateField});
-            $data[$dateField] = $this->toStringInUtc($object) ;
-            $data[$dateField.$this->formattedFieldPostfix] = $this->toStringInTimezone($object) ;
-            $data[$dateField.$this->formattedFieldPostfixForHuman] = $object['for_human'] ;
+            $data[$dateField] = $this->toStringInUtc($object);
+            $data[$dateField.$this->formattedFieldPostfix] = $this->toStringInTimezone($object);
+            $data[$dateField.$this->formattedFieldPostfixForHuman] = $object['for_human'];
         }
 
         return $data;
@@ -54,7 +56,7 @@ trait DateFormatter
         $value = $object['date_in_tz'];
 
         if ($object['time_in_tz']) {
-            $value .= ' ' . $object['time_in_tz'];
+            $value .= ' '.$object['time_in_tz'];
         }
 
         return $value;
@@ -65,7 +67,7 @@ trait DateFormatter
         $value = $object['date_in_utc'];
 
         if ($object['time_in_utc']) {
-            $value .= ' ' . $object['time_in_utc'];
+            $value .= ' '.$object['time_in_utc'];
         }
 
         return $value;
@@ -81,13 +83,13 @@ trait DateFormatter
             'time_in_tz' => $this->formattedTime($dateValue, true),
             'date_in_utc' => $this->formattedDate($dateValue),
             'time_in_utc' => $this->formattedTime($dateValue),
-            'for_human' => $this->formattedDiffForHumans($dateValue)
+            'for_human' => $this->formattedDiffForHumans($dateValue),
         ];
     }
 
     private function formattedDate(?Carbon $dateValue, bool $inTimezone = false): ?string
     {
-        if (!$dateValue) {
+        if (! $dateValue) {
             return null;
         }
 
@@ -96,7 +98,7 @@ trait DateFormatter
             $date = $this->inUsersTimezone($dateValue);
         }
 
-        if (!config('datetime.date_format')) {
+        if (! config('datetime.date_format')) {
             throw new InvalidConfigException('missing config');
         }
 
@@ -146,18 +148,21 @@ trait DateFormatter
     public function toLocalTime(string $field = null): array
     {
         $dateValue = is_null($this->{$field}) ? Carbon::now() : $this->{$field};
+
         return $this->toDateObject($dateValue);
     }
 
     public function disableFormat()
     {
         $this->noFormat = true;
+
         return $this;
     }
 
     public function enableFormat()
     {
         $this->noFormat = false;
+
         return $this;
     }
 
@@ -173,9 +178,10 @@ trait DateFormatter
 
     public function getCreatedAtHumansAttribute(): ?string
     {
-        if (!$this->created_at) {
+        if (! $this->created_at) {
             return null;
         }
+
         return $this->created_at->diffForHumans();
     }
 
