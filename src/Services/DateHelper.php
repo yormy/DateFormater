@@ -3,6 +3,7 @@
 namespace Yormy\Dateformatter\Services;
 
 use Carbon\Carbon;
+use Yormy\Dateformatter\Exceptions\InvalidConfigException;
 
 class DateHelper
 {
@@ -31,7 +32,12 @@ class DateHelper
             return '';
         }
 
-        return $date->format(config('datetime.datetime_format'));
+        $format = config('datetime.datetime_format');
+        if (!$format) {
+            throw new InvalidConfigException('missing config: datetime.datetime_format');
+        }
+
+        return $date->format($format);
     }
 
     public static function formatDateTimeFromString(?string $dateString)
