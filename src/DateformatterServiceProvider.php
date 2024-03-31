@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yormy\Dateformatter;
 
 use Illuminate\Support\Carbon;
@@ -20,12 +22,12 @@ class DateformatterServiceProvider extends ServiceProvider
         $this->extendCarbon();
     }
 
-    public function register()
+    public function register(): void
     {
         $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'dateformatter');
     }
 
-    private function extendCarbon()
+    private function extendCarbon(): void
     {
         // This returns false invalid date, and also works for leap year checking.
         Carbon::macro('isValidDate', function ($date, $format = 'Y-m-d H:i:s') {

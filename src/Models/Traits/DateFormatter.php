@@ -30,10 +30,8 @@ trait DateFormatter
 
     /**
      * Override the models toArray to append the formatted dates fields
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $data = parent::toArray();
 
@@ -49,6 +47,60 @@ trait DateFormatter
         }
 
         return $data;
+    }
+
+    public function setFormattedDates(array $formattedDates): void
+    {
+        $this->formattedDates = $formattedDates;
+    }
+
+    /**
+     * Get the formatted date object for a field
+     */
+    public function toLocalTime(?string $field = null): array
+    {
+        $dateValue = is_null($this->{$field}) ? Carbon::now() : $this->{$field};
+
+        return $this->toDateObject($dateValue);
+    }
+
+    public function disableFormat()
+    {
+        $this->noFormat = true;
+
+        return $this;
+    }
+
+    public function enableFormat()
+    {
+        $this->noFormat = false;
+
+        return $this;
+    }
+
+    public function getCreatedAtHumansAttribute(): ?string
+    {
+        if (! $this->created_at) {
+            return null;
+        }
+
+        return $this->created_at->diffForHumans();
+    }
+
+    public function inDateTime($value)
+    {
+        $format = $this->getDateFormat();
+
+        // Finally, we will just assume this date is in the format used by default on
+        // the database connection and use that format to create the Carbon object
+        // that is returned back out to the developers after we convert it here.
+        try {
+            $date = Date::createFromFormat($format, $value);
+        } catch (\Exception $e) {
+            $date = false;
+        }
+
+        return $date;
     }
 
     private function toStringInTimezone(array $object): ?string
@@ -137,35 +189,6 @@ trait DateFormatter
         return array_merge($this->formattedDates, $this->getDates());
     }
 
-    public function setFormattedDates(array $formattedDates)
-    {
-        $this->formattedDates = $formattedDates;
-    }
-
-    /**
-     * Get the formatted date object for a field
-     */
-    public function toLocalTime(?string $field = null): array
-    {
-        $dateValue = is_null($this->{$field}) ? Carbon::now() : $this->{$field};
-
-        return $this->toDateObject($dateValue);
-    }
-
-    public function disableFormat()
-    {
-        $this->noFormat = true;
-
-        return $this;
-    }
-
-    public function enableFormat()
-    {
-        $this->noFormat = false;
-
-        return $this;
-    }
-
     private function inUsersTimezone(Carbon $dateValue): Carbon
     {
         $user = Auth::user();
@@ -174,30 +197,5 @@ trait DateFormatter
 
         return $this->asDateTime($dateValue)
             ->timezone($timezone);
-    }
-
-    public function getCreatedAtHumansAttribute(): ?string
-    {
-        if (! $this->created_at) {
-            return null;
-        }
-
-        return $this->created_at->diffForHumans();
-    }
-
-    public function inDateTime($value)
-    {
-        $format = $this->getDateFormat();
-
-        // Finally, we will just assume this date is in the format used by default on
-        // the database connection and use that format to create the Carbon object
-        // that is returned back out to the developers after we convert it here.
-        try {
-            $date = Date::createFromFormat($format, $value);
-        } catch (\Exception $e) {
-            $date = false;
-        }
-
-        return $date;
     }
 }
