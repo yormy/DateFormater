@@ -145,7 +145,7 @@ trait DateFormatter
     /**
      * Get the formatted date object for a field
      */
-    public function toLocalTime(string $field = null): array
+    public function toLocalTime(?string $field = null): array
     {
         $dateValue = is_null($this->{$field}) ? Carbon::now() : $this->{$field};
 

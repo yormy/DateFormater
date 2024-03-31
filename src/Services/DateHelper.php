@@ -33,7 +33,7 @@ class DateHelper
         }
 
         $format = config('datetime.datetime_format');
-        if (!$format) {
+        if (! $format) {
             throw new InvalidConfigException('missing config: datetime.datetime_format');
         }
 
