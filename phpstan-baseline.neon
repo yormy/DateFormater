@@ -6,7 +6,7 @@ parameters:
 			path: src/DateformatterServiceProvider.php
 
 		-
-			message: "#^Cannot call method format\\(\\) on Illuminate\\\\Support\\\\Carbon\\|false\\.$#"
+			message: "#^Cannot call method format\\(\\) on Illuminate\\\\Support\\\\Carbon\\|null\\.$#"
 			count: 1
 			path: src/DateformatterServiceProvider.php
 
