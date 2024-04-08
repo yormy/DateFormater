@@ -150,11 +150,11 @@ trait DateFormatter
             $date = $this->inUsersTimezone($dateValue);
         }
 
-        if (! config('datetime.date_format')) {
+        if (! config('dateformatter.date.format')) {
             throw new InvalidConfigException('missing config');
         }
 
-        return $date->format(config('datetime.date_format'));
+        return $date->format(config('dateformatter.date.format'));
     }
 
     private function formattedTime(?Carbon $dateValue, bool $inTimezone = false): ?string
@@ -168,7 +168,7 @@ trait DateFormatter
             $date = $this->inUsersTimezone($dateValue);
         }
 
-        return $date->format(config('datetime.time_format'));
+        return $date->format(config('dateformatter.time.format'));
     }
 
     private function formattedDiffForHumans(?Carbon $dateValue): ?string

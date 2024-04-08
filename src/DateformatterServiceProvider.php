@@ -11,20 +11,12 @@ class DateformatterServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        if ($this->app->runningInConsole()) {
-            //            $this->publishes([
-            //                __DIR__ . '/../config/config.php' => config_path('xid.php'),
-            //            ], 'config');
-        }
-
-        //        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'xid');
-
         $this->extendCarbon();
     }
 
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/config.php', 'dateformatter');
+        $this->mergeConfigFrom(__DIR__.'/../config/dateformatter.php', 'dateformatter');
     }
 
     private function extendCarbon(): void

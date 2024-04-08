@@ -15,7 +15,7 @@ class DateHelper
             return '';
         }
 
-        return $date->format(config('datetime.date_format'));
+        return $date->format(config('dateformatter.date.format'));
     }
 
     public static function nowUTC(): Carbon
@@ -34,9 +34,9 @@ class DateHelper
             return '';
         }
 
-        $format = config('datetime.datetime_format');
+        $format = config('dateformatter.datetime.format');
         if (! $format) {
-            throw new InvalidConfigException('missing config: datetime.datetime_format');
+            throw new InvalidConfigException('missing config: dateformatter.datetime.format');
         }
 
         return $date->format($format);
