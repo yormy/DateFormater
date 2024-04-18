@@ -6,7 +6,7 @@ use Illuminate\Support\Carbon;
 
 trait CarbonFormatterTrait
 {
-    public function register()
+    public static function register()
     {
         $dateFormat = config('dateformatter.date.format');
         $timeFormat = config('dateformatter.time.format');
