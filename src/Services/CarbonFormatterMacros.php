@@ -4,7 +4,7 @@ namespace Yormy\Dateformatter\Services;
 
 use Illuminate\Support\Carbon;
 
-class CarbonFormatterMacro
+class CarbonFormatterMacros
 {
     public static function register()
     {
