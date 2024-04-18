@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Yormy\Dateformatter\Models\Traits;
+namespace Yormy\Dateformatter\Services;
 
 use Illuminate\Support\Carbon;
 
-trait CarbonFormatterTrait
+class CarbonFormatterMacro
 {
     public static function register()
     {
