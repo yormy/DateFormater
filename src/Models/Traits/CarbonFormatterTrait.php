@@ -4,7 +4,7 @@ namespace Yormy\Dateformatter\Models\Traits;
 
 use Illuminate\Support\Carbon;
 
-trait CarbonFormatter
+trait CarbonFormatterTrait
 {
     public function register()
     {
